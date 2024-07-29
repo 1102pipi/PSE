@@ -159,27 +159,32 @@ Here are the exercises for this module. Collaborate with others to find the answ
 
 Summarize each of the following concepts in a few sentences:
 
-1. Three-Colouring Graph problem with Hats
+1. Three-Coloring Graph problem with Hats
+  - 我其實不太了解這題的意思，但我的理解會是證明者為了證明它確實知道每個節點的顏色且相鄰節點顏色不同，但又不想讓其他人知道顏色是什麼，所以他用雜湊的方式將顏色取代掉，然後再用帽子將所有節點蓋住，這時證明者再隨意翻開相鄰的兩頂帽子，驗證看看一不一樣。然後每次驗證前都要做一次雜湊，若每次翻出來的顏色都不一樣，那就代表證明者真的知道顏色。
 2.  Ali Baba’s Cave analogy
+  - 證明者為了證明自己真的有鑰匙，在證明者不知情的情況下，驗證者就在一個左右互通的穴道中設立了一個門，門的一邊需要鑰匙，另一邊可以直接打開。接者證明者再隨機選一邊走，證明者若是可以從另一邊出來的話，則不是因為選到不需要鑰匙的一邊，就是因為有鑰匙可以打開鎖住的門。接著不斷循環以上操作，證明者有鑰匙的可信度就會不斷上升。
 3.   The difference between interactive and non-interactive proofs
+  - 一個需要靠兩個人以上來證明，一個可以一個人證明。
 
 ### Modular Arithmetic
 
 Solve the following problems and gain a practical understanding of modular arithmetic:
 
-1. $7\ mod\ 13$
-2. $15\ mod\ 13$
-3. $(7+15)\ mod\ 13$
-4. $(7\ mod\ 13 + 15\ mod\ 13)\ mod\ 13$
+1. $7\ mod\ 13\ =7$ 
+2. $15\ mod\ 13\ =2$
+3. $(7+15)\ mod\ 13\ =9$
+4. $(7\ mod\ 13 + 15\ mod\ 13)\ mod\ 13\ =9$
 
 If the results of the third and fourth calculations match, they follow a "group structure". Can you determine if these do?
-
+  - 相加可以，但若是相乘就不一定。
 ### Generators
 
 Consider the cyclic group $(Z_{12}, +\ mod\ 12)$, commonly referred to as the "additive group of integers modulo 12". Address the following points:
 
 1. What does the term 'generator' mean?
+  - 若是加法的generator，在這裡指的就是所有小於12的正整數，他們每次都要與自己相加後再$mod\ 12$，假設$n$是某個小於$12$的正整數，則$n$每次自己相加後再$mod\ 12$出來的每個值為n的元素，若$n$的元素有12種，那此值為此group的generator。
 2. Can you find a generator for this group?
+  - 1, 5, 7, 11
 3. Are there other generators for this group? If yes, what are they?
 
 ### Implementing a Modular Arithmetic Calculator
@@ -199,14 +204,29 @@ For addition and multiplication, remember that JavaScript's `%` operator gives t
 
 **Code Template:**
 
-```javascript
-function modularCalculator(op, num1, num2, mod) {
-    // Your code here
+```C
+#include <stdio.h>
+#define MIN(X, Y) (((X) < (Y)) ? (X) : (Y))
+#define MAX(X, Y) (((X) > (Y)) ? (X) : (Y))
+
+int modularCalculator(char op, int num1, int num2, int mod){
+    switch (op)
+    {
+        case '+':
+            return (num1 + num2) % mod;
+        case '-':
+            return (MAX(num1, num2)-MIN(num1, num2)) % mod;
+        case '*':
+            return (num1 * num2) % mod;
+    }
 }
 
-modularCalculator('+', 10, 15, 12); // Should return: 1
-modularCalculator('-', 10, 15, 12); // Should return: 7
-modularCalculator('*', 10, 15, 12); // Should return: 6
+int main(){
+    printf("%d\n", modularCalculator('+', 10, 15, 12));
+    printf("%d\n", modularCalculator('-', 10, 15, 12));
+    printf("%d\n", modularCalculator('*', 10, 15, 12));
+    return 0;
+}
 ```
 
 Feel free to use `console.log` statements in your code to verify that your function is working as expected. For convenience, consider using https://repljs.com/ and pasting in the above code snippet to get started.
